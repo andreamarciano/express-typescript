@@ -111,3 +111,15 @@ Expected terminal output:
 [nodemon] starting `ts-node src/index.ts`
 Server is running at http://localhost:3000
 ```
+
+---
+
+## 🔗 Step 8: Link to GitHub
+
+```bash
+git init
+git add .
+git commit -m "first commit"
+git remote add origin https://github.com/username/repository
+git push -u origin main
+```
