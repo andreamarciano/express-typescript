@@ -127,7 +127,7 @@
 
         const formData = new FormData(addForm);
         const newPerson = {
-          id: formData.get("id"),
+          id: Number(formData.get("id")),
           name: formData.get("name"),
           age: Number(formData.get("age")),
           email: formData.get("email"),

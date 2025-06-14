@@ -1,16 +1,10 @@
 import { Router, Request, Response } from "express";
-
-import {
-  isAuthenticated,
-  isAdmin,
-  isSelfOrAdmin,
-} from "../auth/authMiddleware";
 import { people } from "../data/people";
 
 const router = Router();
 
 // Get people
-router.get("/people", isAuthenticated, (req: Request, res: Response): void => {
+router.get("/people", (req: Request, res: Response): void => {
   res.json(people);
 });
 
@@ -24,28 +18,24 @@ router.post("/people", (req: Request, res: Response): void => {
 });
 
 // Modify person
-router.put(
-  "/people/:id",
-  isSelfOrAdmin,
-  (req: Request, res: Response): void => {
-    const { id } = req.params;
-    const personId = Number(id);
+router.put("/people/:id", (req: Request, res: Response): void => {
+  const { id } = req.params;
+  const personId = Number(id);
 
-    const index = people.findIndex((p) => p.id === personId);
+  const index = people.findIndex((p) => p.id === personId);
 
-    if (index === -1) {
-      res.status(400).json({ success: false, message: "Person not found" });
-      return;
-    }
-
-    people[index] = { ...people[index], ...req.body };
-
-    res.status(200).json({ success: true, data: people[index] });
+  if (index === -1) {
+    res.status(400).json({ success: false, message: "Person not found" });
+    return;
   }
-);
+
+  people[index] = { ...people[index], ...req.body };
+
+  res.status(200).json({ success: true, data: people[index] });
+});
 
 // Delete person
-router.delete("/people/:id", isAdmin, (req: Request, res: Response): void => {
+router.delete("/people/:id", (req: Request, res: Response): void => {
   const { id } = req.params;
   const { name } = req.body;
 
