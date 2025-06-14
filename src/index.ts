@@ -2,47 +2,25 @@ import express, { Request, Response } from "express";
 import path from "path"; // os compatibility
 
 import logger from "./middleware/logger";
-import { people } from "./data/people";
+import apiRoutes from "./routes/api";
+import pageRoutes from "./routes/pages";
 
 const app = express();
 const PORT: number = 3000;
 
-/* API enpoints */
-app.get("/api/people", (req: Request, res: Response): void => {
-  res.json(people);
-});
+const publicPath = path.join(__dirname, "public");
 
 /* Middleware */
 app.use(logger);
-app.use("/static", express.static(path.join(__dirname, "public")));
+app.use("/static", express.static(publicPath));
 
 /* Website Routes */
+app.use("/api", apiRoutes);
+app.use("/", pageRoutes);
 
-// Home
-app.get("/", (req: Request, res: Response): void => {
-  res.sendFile("homepage.html", { root: path.join(__dirname, "public") });
-});
-
-// People
-app.get("/people", (req: Request, res: Response): void => {
-  res.sendFile("people.html", { root: path.join(__dirname, "public") });
-});
-
-// About
-app.get("/about", (req: Request, res: Response): void => {
-  res.sendFile("about.html", { root: path.join(__dirname, "public") });
-});
-
-// Contacts
-app.get("/contact", (req: Request, res: Response): void => {
-  res.sendFile("contact.html", { root: path.join(__dirname, "public") });
-});
-
-/* 404 handler - Undefined Routes */
+/* 404 handler */
 app.use((req: Request, res: Response): void => {
-  res
-    .status(404)
-    .sendFile("404.html", { root: path.join(__dirname, "public") });
+  res.status(404).sendFile("404.html", { root: publicPath });
 });
 
 /* Server start */
