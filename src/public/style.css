@@ -27,25 +27,79 @@ nav a:hover {
 
 #list-box {
     margin-top: 8px;
-    padding: 8px;
+    padding: 16px;
     border-radius: 8px;
-    max-width: fit-content;
+    background-color: #53a6e1;
+}
+
+#people-management {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+#management-area {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #53a6e1;
+    gap: 16px;
+    background-color: #ffffffcc;
+    padding: 16px;
+    border-radius: 8px;
+    min-width: 340px;
 }
 
 #btn-box {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 4px;
 }
 
-#add-person {
+#loadPeopleBtn {
+    background-color: #0077cc;
+    color: white;
+    font-weight: bold;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#loadPeopleBtn:hover {
+    background-color: #005fa3;
+}
+
+.load-hint {
+    font-size: 0.85rem;
+    color: #333;
+    text-align: center;
+    margin: 0;
+}
+
+form fieldset {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    background-color: #f1efef;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    margin-top: 8px;
-    gap: 4px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+form fieldset legend {
+    font-weight: bold;
+    padding: 0 4px;
+}
+
+#list-section {
+    background-color: #ffffffcc;
+    padding: 16px;
+    border-radius: 8px;
+    min-width: 300px;
+    flex: 1;
+}
+
+#peopleList {
+    list-style-type: none;
+    padding: 0;
 }
