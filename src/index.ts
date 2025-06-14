@@ -2,15 +2,21 @@ import express, { Request, Response } from "express";
 import path from "path"; // os compatibility
 
 import logger from "./middleware/logger";
+import { people } from "./data/people";
 
 const app = express();
 const PORT: number = 3000;
 
+/* API enpoints */
+app.get("/api/people", (req: Request, res: Response): void => {
+  res.json(people);
+});
+
 /* Middleware */
 app.use(logger);
-app.use(express.static(path.join(__dirname, "public"))); // Serves all files in the "public" folder
+app.use("/static", express.static(path.join(__dirname, "public")));
 
-/* Routes */
+/* Website Routes */
 
 // Home
 app.get("/", (req: Request, res: Response): void => {

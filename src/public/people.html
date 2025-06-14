@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>People List</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
     <h1>People List</h1>
@@ -16,10 +16,35 @@
       <a href="/contact">Contact Us</a>
     </nav>
 
-    <ul>
-      <li>Alice</li>
-      <li>Bob</li>
-      <li>Charlie</li>
-    </ul>
+    <button id="loadPeopleBtn">Load People</button>
+    <ul id="peopleList"></ul>
+
+    <script>
+      const loadPeopleBtn = document.getElementById("loadPeopleBtn");
+      const peopleList = document.getElementById("peopleList");
+
+      loadPeopleBtn.addEventListener("click", async () => {
+        const response = await fetch("/api/people");
+        const people = await response.json();
+
+        peopleList.innerHTML = ""; // clear
+
+        people.forEach((person) => {
+          if (person.isOnline) {
+            const li = document.createElement("li");
+            li.textContent = `${person.name} (${person.role}) - ${person.email}`;
+            li.style.color = person.role === "admin" ? "red" : "black";
+            li.prepend(document.createTextNode("🟢 "));
+            peopleList.appendChild(li);
+          } else {
+            const li = document.createElement("li");
+            li.textContent = `${person.name} (${person.role}) - ${person.email}`;
+            li.style.color = person.role === "admin" ? "red" : "black";
+            li.prepend(document.createTextNode("🔴 "));
+            peopleList.appendChild(li);
+          }
+        });
+      });
+    </script>
   </body>
 </html>
