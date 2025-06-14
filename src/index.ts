@@ -11,6 +11,7 @@ const PORT: number = 3000;
 const publicPath = path.join(__dirname, "public");
 
 /* Middleware */
+app.use(express.json());
 app.use(logger);
 app.use("/static", express.static(publicPath));
 

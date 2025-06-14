@@ -16,34 +16,91 @@
       <a href="/contact">Contact Us</a>
     </nav>
 
-    <button id="loadPeopleBtn">Load People</button>
-    <ul id="peopleList"></ul>
+    <div id="list-box">
+      <div id="btn-box">
+        <button id="loadPeopleBtn" type="button" style="cursor: pointer">
+          Load People
+        </button>
+      </div>
+
+      <form id="add-person">
+        <label for="id">ID</label>
+        <input id="id" name="id" type="text" required />
+
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required />
+
+        <label for="age">Age</label>
+        <input id="age" name="age" type="number" min="18" required />
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required />
+
+        <label for="role">Role</label>
+        <input id="role" name="role" type="text" required />
+
+        <label for="online">Online </label>
+        <input id="online" name="isOnline" type="checkbox" />
+
+        <button type="submit" style="cursor: pointer">Add Person</button>
+      </form>
+
+      <ul id="peopleList"></ul>
+    </div>
 
     <script>
       const loadPeopleBtn = document.getElementById("loadPeopleBtn");
       const peopleList = document.getElementById("peopleList");
+      const form = document.getElementById("add-person");
 
-      loadPeopleBtn.addEventListener("click", async () => {
+      // Load people
+      async function loadPeople() {
         const response = await fetch("/api/people");
         const people = await response.json();
 
         peopleList.innerHTML = ""; // clear
 
         people.forEach((person) => {
-          if (person.isOnline) {
-            const li = document.createElement("li");
-            li.textContent = `${person.name} (${person.role}) - ${person.email}`;
-            li.style.color = person.role === "admin" ? "red" : "black";
-            li.prepend(document.createTextNode("🟢 "));
-            peopleList.appendChild(li);
-          } else {
-            const li = document.createElement("li");
-            li.textContent = `${person.name} (${person.role}) - ${person.email}`;
-            li.style.color = person.role === "admin" ? "red" : "black";
-            li.prepend(document.createTextNode("🔴 "));
-            peopleList.appendChild(li);
-          }
+          const li = document.createElement("li");
+          li.textContent = `${person.name} (${person.role}) - ${person.email}`;
+          li.style.color = person.role === "admin" ? "red" : "black";
+          li.prepend(document.createTextNode(person.isOnline ? "🟢 " : "🔴 "));
+          peopleList.appendChild(li);
         });
+      }
+
+      loadPeopleBtn.addEventListener("click", loadPeople);
+
+      // Add person
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const newPerson = {
+          id: formData.get("id"),
+          name: formData.get("name"),
+          age: Number(formData.get("age")),
+          email: formData.get("email"),
+          role: formData.get("role"),
+          isOnline: formData.get("isOnline") === "on",
+        };
+
+        const response = await fetch("/api/people", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newPerson),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          alert("Person added!");
+          form.reset();
+          loadPeople(); // reload list
+        } else {
+          alert("Error adding person.");
+        }
       });
     </script>
   </body>
