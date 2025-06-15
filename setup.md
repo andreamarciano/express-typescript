@@ -55,13 +55,12 @@ Update `tsconfig.json` with the following:
 
 ```text
 /firstProject
-├── /dist                # Compiled JS output (auto-generated)
-├── /node_modules        # Installed packages
+├── /node_modules        
+├── /public              # HTML & CSS files
 ├── /src                 # Source files
 │   └── index.ts         # Main entry point
 ├── package.json
-├── package-lock.json
-├── tsconfig.json
+└── tsconfig.json
 ```
 
 ---
