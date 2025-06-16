@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import path from "path";
 
 const router = Router();
-const publicPath = path.join(__dirname, "../public");
+const publicPath = path.join(__dirname, "../../public");
 
 // Home
 router.get("/", (req: Request, res: Response): void => {

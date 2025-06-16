@@ -54,7 +54,7 @@ Update `tsconfig.json` with the following:
 ## 🗂️ Step 4: Project Structure
 
 ```text
-/firstProject
+/MyBackendProject
 ├── /node_modules        
 ├── /public              # HTML & CSS files
 ├── /src                 # Source files
